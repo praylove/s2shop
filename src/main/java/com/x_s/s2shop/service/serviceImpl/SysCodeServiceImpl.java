@@ -8,14 +8,11 @@ import com.x_s.s2shop.common.exception.ServiceException;
 import com.x_s.s2shop.common.utils.DateUtils;
 import com.x_s.s2shop.common.utils.HttpUtils;
 import com.x_s.s2shop.domain.SysCode;
-import com.x_s.s2shop.domain.SysCodeValue;
 import com.x_s.s2shop.domain.SysUser;
 import com.x_s.s2shop.repository.SysCodeRepository;
 import com.x_s.s2shop.repository.SysCodeValueRepository;
 import com.x_s.s2shop.service.SysCodeService;
-import com.x_s.s2shop.vo.SysCodeValueVo;
 import com.x_s.s2shop.vo.SysCodeVo;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +38,7 @@ public class SysCodeServiceImpl extends BaseServiceImpl<SysCode> implements SysC
     @Override
     public Page<SysCode> list(SysCodeVo vo) {
         Specification<SysCode> specification = Specifications.<SysCode>and()
-                .like(StringUtils.isNotBlank(vo.getCodeType()), "codeType", "%" + vo.getCodeType() + "%")
+                .like(StringUtils.hasText(vo.getCodeType()), "codeType", "%" + vo.getCodeType() + "%")
                 .build();
         Sort sort = Sorts.builder().desc("createTime").build();
         PageRequest page = PageRequest.of(vo.getPageNo() - 1, vo.getPageSize(), sort);
