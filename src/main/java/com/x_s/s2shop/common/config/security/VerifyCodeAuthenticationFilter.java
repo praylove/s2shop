@@ -1,8 +1,7 @@
 package com.x_s.s2shop.common.config.security;
 
+import com.alibaba.druid.util.StringUtils;
 import com.x_s.s2shop.common.constant.ContextConstant;
-import com.x_s.s2shop.common.exception.LoginException;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -20,7 +19,6 @@ public class VerifyCodeAuthenticationFilter extends UsernamePasswordAuthenticati
 //        String verifyCode = request.getParameter(verifyCodeName);
 //        if (!verify(request, verifyCode))
 //            throw new LoginException("验证码错误！");
-
         return super.attemptAuthentication(request, response);
     }
 

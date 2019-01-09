@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "sys_user", schema = "mytmall", catalog = "")
+@Table(name = "sys_user", schema = "mytmall")
 public class SysUser {
 
     /**

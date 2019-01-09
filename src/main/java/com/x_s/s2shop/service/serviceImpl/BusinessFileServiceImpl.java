@@ -1,6 +1,5 @@
 package com.x_s.s2shop.service.serviceImpl;
 
-import com.sun.imageio.plugins.common.ImageUtil;
 import com.x_s.s2shop.common.entity.FileTypeProperties;
 import com.x_s.s2shop.common.exception.FileException;
 import com.x_s.s2shop.common.exception.ParamException;
@@ -14,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

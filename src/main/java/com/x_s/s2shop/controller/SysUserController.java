@@ -4,7 +4,6 @@ import com.x_s.s2shop.common.entity.ResponseEntity;
 import com.x_s.s2shop.common.exception.ParamException;
 import com.x_s.s2shop.domain.SysUser;
 import com.x_s.s2shop.service.SysUserService;
-import com.x_s.s2shop.vo.SysRoleVo;
 import com.x_s.s2shop.vo.SysUserVo;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,5 @@
 package com.x_s.s2shop.service;
 
-import com.x_s.s2shop.common.exception.ServiceException;
-import com.x_s.s2shop.domain.SysUser;
-
 import java.util.Optional;
 
 public interface BaseService<T> {

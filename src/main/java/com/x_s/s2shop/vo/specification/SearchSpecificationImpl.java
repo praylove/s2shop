@@ -1,6 +1,5 @@
 package com.x_s.s2shop.vo.specification;
 
-import com.x_s.s2shop.domain.SysRole;
 import org.springframework.data.jpa.domain.Specification;
 
 public class SearchSpecificationImpl<T> {

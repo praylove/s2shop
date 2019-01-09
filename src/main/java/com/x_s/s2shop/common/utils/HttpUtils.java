@@ -2,14 +2,12 @@ package com.x_s.s2shop.common.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.x_s.s2shop.common.config.security.CustomUser;
-import com.x_s.s2shop.common.entity.ResponseEntity;
 import com.x_s.s2shop.domain.SysUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Optional;
 
 public class HttpUtils {
 

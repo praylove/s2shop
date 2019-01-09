@@ -1,11 +1,10 @@
 package com.x_s.s2shop.common.utils;
 
 import com.x_s.s2shop.common.exception.ServiceException;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.StringUtils;
 
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +26,7 @@ public class BeanUtilsCustom {
 
             }
             return d.getName();
-        }).filter(s -> !StringUtils.isEmpty(s)).collect(Collectors.toList());
+        }).filter(StringUtils::hasText).collect(Collectors.toList());
     }
 
     /**

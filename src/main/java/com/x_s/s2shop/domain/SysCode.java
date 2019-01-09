@@ -1,16 +1,13 @@
 package com.x_s.s2shop.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "sys_code", schema = "mytmall", catalog = "")
+@Table(name = "sys_code", schema = "mytmall")
 public class SysCode {
 
     @Id

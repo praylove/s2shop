@@ -2,7 +2,6 @@ package com.x_s.s2shop.controller;
 
 import com.x_s.s2shop.common.entity.ResponseEntity;
 import com.x_s.s2shop.domain.SysCodeValue;
-import com.x_s.s2shop.service.SysCodeService;
 import com.x_s.s2shop.service.SysCodeValueService;
 import com.x_s.s2shop.vo.SysCodeValueVo;
 import org.springframework.beans.factory.annotation.Autowired;

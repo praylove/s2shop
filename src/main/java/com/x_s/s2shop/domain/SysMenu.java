@@ -1,19 +1,14 @@
 package com.x_s.s2shop.domain;
 
 import lombok.Data;
-import org.hibernate.annotations.Proxy;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "sys_menu", schema = "mytmall", catalog = "")
+@Table(name = "sys_menu", schema = "mytmall")
 public class SysMenu {
 
     @Id

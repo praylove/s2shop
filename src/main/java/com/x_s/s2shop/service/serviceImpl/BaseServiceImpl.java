@@ -12,7 +12,6 @@ import com.x_s.s2shop.repository.BaseRepository;
 import com.x_s.s2shop.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.Optional;
 
