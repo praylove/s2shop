@@ -14,15 +14,14 @@ import com.x_s.s2shop.domain.SysUser;
 import com.x_s.s2shop.repository.SysMenuRepository;
 import com.x_s.s2shop.service.SysMenuService;
 import com.x_s.s2shop.vo.SysMenuVo;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,7 +34,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
 
     public Page<SysMenu> list(SysMenuVo menuVo) {
         Specification<SysMenu> specification = Specifications.<SysMenu>and()
-                .like(StringUtils.isNotBlank(menuVo.getMenuName()), "menuName", menuVo.getMenuName())
+                .like(StringUtils.hasText(menuVo.getMenuName()), "menuName", menuVo.getMenuName())
                 .build();
         Sort sort = Sorts.builder().asc("order").build();
         PageRequest page = PageRequest.of(menuVo.getPageNo() - 1, menuVo.getPageSize(), sort);
@@ -44,7 +43,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
 
     @Override
     public void save(SysMenu entity) {
-        if (StringUtils.isNotBlank(entity.getParentId())) {
+        if (StringUtils.hasText(entity.getParentId())) {
             SysMenu sysMenu = findById(entity.getParentId()).orElseThrow(() -> new ServiceException("此父菜单不存在！"));
             entity.setParentName(sysMenu.getMenuName());
         }
@@ -54,7 +53,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
     @Override
     public void updateSelective(SysMenu entity) {
         SysMenu oldValue = findById(entity.getId()).orElseThrow(() -> new ServiceException("此菜单不存在！"));
-        if (StringUtils.isNotBlank(entity.getParentId()) && !entity.getParentId().equals(oldValue.getParentId())) {
+        if (StringUtils.hasText(entity.getParentId()) && !entity.getParentId().equals(oldValue.getParentId())) {
             SysMenu sysMenu = findById(entity.getParentId()).orElseThrow(() -> new ServiceException("此父菜单不存在！"));
             entity.setParentName(sysMenu.getMenuName());
             if (!isRightParentId(entity.getParentId(), entity.getId())) {
@@ -69,7 +68,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
     @Override
     public List<SysMenu> listChildren(String id) {
         PredicateBuilder<SysMenu> builder = Specifications.and();
-        if (StringUtils.isNotBlank(id)) {
+        if (StringUtils.hasText(id)) {
             builder.eq("parentId", id);
         } else {
             builder.eq("parentId", "", null);
@@ -80,7 +79,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
 
     public List<SysMenu> getTree(String... type) {
         List<SysMenu> menus = listAll(type);
-        List<SysMenu> roots = menus.stream().filter(m -> StringUtils.isBlank(m.getParentId())).collect(Collectors.toList());
+        List<SysMenu> roots = menus.stream().filter(m -> !StringUtils.hasText(m.getParentId())).collect(Collectors.toList());
         buildTree(roots, menus);
         return roots;
     }
@@ -93,7 +92,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
             menus.addAll(role.getMenus());
         }
         List<SysMenu> menuList = menus.stream().filter(m -> m.getStatus().equals(CodeConstant.NORMAL_STATUS) && (Arrays.binarySearch(typeCode, m.getType()) >= 0)).collect(Collectors.toList());
-        List<SysMenu> roots = menuList.stream().filter(m -> StringUtils.isBlank(m.getParentId())).collect(Collectors.toList());
+        List<SysMenu> roots = menuList.stream().filter(m -> !StringUtils.hasText(m.getParentId())).collect(Collectors.toList());
         buildTree(roots, menuList);
         return roots;
     }
@@ -126,7 +125,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
 
     private boolean isRightParentId(String parentId, String cuurentId) {
         Assert.notNull(cuurentId, "cuurentId不能为空！");
-        while (StringUtils.isNotBlank(parentId)) {
+        while (StringUtils.hasText(parentId)) {
             final String s = parentId;
             if (s.equals(cuurentId)) {
                 return false;

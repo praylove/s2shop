@@ -8,16 +8,15 @@ import com.x_s.s2shop.domain.SysRole;
 import com.x_s.s2shop.repository.SysRoleRepository;
 import com.x_s.s2shop.service.SysRoleService;
 import com.x_s.s2shop.vo.SysRoleVo;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,8 +30,8 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
     @Override
     public Page<SysRole> list(SysRoleVo roleVo) {
         Specification<SysRole> specification = Specifications.<SysRole>and()
-                .like(StringUtils.isNotBlank(roleVo.getRoleName()), "roleName", "%" + roleVo.getRoleName() + "%")
-                .like(StringUtils.isNotBlank(roleVo.getRemark()), "remark", "%" + roleVo.getRemark() + "%")
+                .like(StringUtils.hasText(roleVo.getRoleName()), "roleName", "%" + roleVo.getRoleName() + "%")
+                .like(StringUtils.hasText(roleVo.getRemark()), "remark", "%" + roleVo.getRemark() + "%")
                 .build();
         Sort sort = Sorts.builder().asc("createTime").build();
         PageRequest page = PageRequest.of(roleVo.getPageNo() - 1, roleVo.getPageSize(), sort);
@@ -41,7 +40,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
 
     public List<SysRole> listWithoutPage(SysRoleVo roleVo){
         Specification<SysRole> specification = Specifications.<SysRole>and()
-                .like(StringUtils.isNotBlank(roleVo.getRoleName()), "roleName", "%" + roleVo.getRoleName() + "%")
+                .like(StringUtils.hasText(roleVo.getRoleName()), "roleName", "%" + roleVo.getRoleName() + "%")
                 .build();
         return roleRepository.findAll(specification);
     }

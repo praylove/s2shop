@@ -11,13 +11,13 @@ import com.x_s.s2shop.repository.SysUserRepository;
 import com.x_s.s2shop.service.BusinessFileService;
 import com.x_s.s2shop.service.SysUserService;
 import com.x_s.s2shop.vo.SysUserVo;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 import java.util.Set;
@@ -45,8 +45,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
     @Override
     public Page<SysUser> list(SysUserVo userVo) {
         Specification<SysUser> specification = Specifications.<SysUser>and()
-                .like(StringUtils.isNotBlank(userVo.getLoginId()), "loginId", "%" + userVo.getLoginId() + "%")
-                .like(StringUtils.isNotBlank(userVo.getName()), "name", "%" + userVo.getName() + "%")
+                .like(StringUtils.hasText(userVo.getLoginId()), "loginId", "%" + userVo.getLoginId() + "%")
+                .like(StringUtils.hasText(userVo.getName()), "name", "%" + userVo.getName() + "%")
                 .build();
         Sort sort = Sorts.builder().desc("createTime").build();
         PageRequest page = PageRequest.of(userVo.getPageNo() - 1, userVo.getPageSize(), sort);
@@ -55,7 +55,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
 
     @Override
     public void save(SysUser user) {
-        String password = StringUtils.isBlank(user.getPassword()) ? ContextConstant.DEFUALT_PASSWORD : user.getPassword();
+        String password = !StringUtils.hasText(user.getPassword()) ? ContextConstant.DEFUALT_PASSWORD : user.getPassword().trim();
         user.setPassword(Encoders.bcrypt(password));
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
