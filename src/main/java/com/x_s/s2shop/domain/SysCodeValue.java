@@ -1,10 +1,12 @@
 package com.x_s.s2shop.domain;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "sys_code_value", schema = "mytmall")
 public class SysCodeValue {

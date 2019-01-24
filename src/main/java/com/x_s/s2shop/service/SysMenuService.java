@@ -21,7 +21,7 @@ public interface SysMenuService extends BaseService<SysMenu>{
 
     List<SysMenu> getTree(String... type);
 
-    List<SysMenu> getTreeMenu(String... type);
+    List<SysMenu> getUserTree(String... type);
 
     List<SysMenu> listAll(String... type);
 }

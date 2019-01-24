@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/files")
+@RequestMapping("/order")
 public class OrderController extends BaseController<Order>{
+
 
 }

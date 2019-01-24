@@ -12,6 +12,7 @@ import com.x_s.s2shop.repository.BaseRepository;
 import com.x_s.s2shop.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -70,7 +71,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
     @Override
     @Transactional
     public void delete(String ids) {
-        if (ids == null){
+        if (!StringUtils.hasText(ids)){
             throw new ParamException("删除项为空！");
         }
 

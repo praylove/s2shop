@@ -1,9 +1,11 @@
 package com.x_s.s2shop.vo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class SysRoleVo {
+@Getter
+@Setter
+public class SysRoleVo extends PageVo {
 
     private String rid;
 
@@ -12,9 +14,4 @@ public class SysRoleVo {
     private String menuIds;
 
     private String remark;
-
-    private int pageNo = 1;
-
-    private int pageSize = 10;
-
 }

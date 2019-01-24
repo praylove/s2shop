@@ -64,7 +64,12 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
         setUpdateParam(oldValue);
         menuRepository.saveAndFlush(oldValue);
     }
-
+    
+    @Override
+    public void delete(String ids) {
+        super.delete(ids);
+    }
+    
     @Override
     public List<SysMenu> listChildren(String id) {
         PredicateBuilder<SysMenu> builder = Specifications.and();
@@ -84,7 +89,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
         return roots;
     }
 
-    public List<SysMenu> getTreeMenu(String... typeCode) {
+    public List<SysMenu> getUserTree(String... typeCode) {
         Optional<SysUser> user = Optional.ofNullable(HttpUtils.getCurrentUser());
         Set<SysRole> roles = user.orElseThrow(() -> new ParamException("用户未登录或已失效！")).getRoles();
         Set<SysMenu> menus = new HashSet<>();
@@ -102,7 +107,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
     public List<SysMenu> listAll(String... type) {
         Specification<SysMenu> specification = Specifications.<SysMenu>and()
                 .eq("status", CodeConstant.NORMAL_STATUS)
-                .eq(type.length > 0, "type", type)
+                .in(type.length > 0, "type", type)
                 .build();
         return menuRepository.findAll(specification);
     }

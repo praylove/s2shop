@@ -1,12 +1,19 @@
 package com.x_s.s2shop.common.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class FileTypeProperties {
 
     private List<String> image;
+    
+    public boolean isImage(String filename){
+        String suffix = filename.substring(filename.lastIndexOf('.'));
+        return image.contains(suffix);
+    }
 
 }

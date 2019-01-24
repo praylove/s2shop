@@ -18,7 +18,7 @@ spring:
 
   datasource:
       type: com.alibaba.druid.pool.DruidDataSource
-      driver-class-name: com.mysql.jdbc.Driver
+      driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/mytmall?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
       username: root
       password: xieshuai
@@ -62,7 +62,7 @@ spring:
 #           implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
 #           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         #建表策略，这里用update，即根据实体更新表结构
-        ddl-auto: update
+        ddl-auto: validate
       # 该属性将注册一个OpenEntityManagerInViewInterceptor，它将一个EntityManager注册到当前线程，因此您将拥有相同的EntityManager，直到Web请求完成。 它与Hibernate SessionFactory等无关。
       open-in-view: true
       properties:
@@ -70,6 +70,14 @@ spring:
           enable_lazy_load_no_trans: true
       #     #方言
       #     dialect: org.hibernate.dialect.MySQL5Dialect
+
+  rabbitmq:
+      host: 192.168.29.128
+      port: 5672
+#      virtual-host: /
+      username: sherl
+      password: sherl
+
 # 日志配置
 logging:
   level:

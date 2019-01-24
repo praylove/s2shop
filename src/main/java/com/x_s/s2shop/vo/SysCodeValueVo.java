@@ -1,9 +1,11 @@
 package com.x_s.s2shop.vo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class SysCodeValueVo {
+@Getter
+@Setter
+public class SysCodeValueVo extends PageVo {
 
     private String codeType;
 
@@ -12,9 +14,5 @@ public class SysCodeValueVo {
     private String name;
 
     private String remark;
-
-    private int pageNo = 1;
-
-    private int pageSize = 10;
 
 }

@@ -28,13 +28,6 @@ public class BusinessFileServiceImpl extends BaseServiceImpl<BusinessFile> imple
     @Autowired
     private FileTypeProperties fileTypeProperties;
 
-//    @Autowired
-//    public BusinessFileServiceImpl(BusinessFileRepository fileRepository, FileTypeProperties fileTypeProperties) {
-//        super(fileRepository);
-//        this.fileRepository = fileRepository;
-//        this.fileTypeProperties = fileTypeProperties;
-//    }
-
     @Override
     public BusinessFile save(MultipartFile file) {
         if (file.isEmpty()){
@@ -42,11 +35,10 @@ public class BusinessFileServiceImpl extends BaseServiceImpl<BusinessFile> imple
         }
         String originalFilename = file.getOriginalFilename();
         assert originalFilename != null;
-        String suffix = originalFilename.substring(originalFilename.indexOf('.'));
-        if (!fileTypeProperties.getImage().contains(suffix.toLowerCase())){
+        if (!fileTypeProperties.isImage(originalFilename)){
             throw new ParamException("图片格式错误，请选择 " + fileTypeProperties.getImage() + " 的图片");
         }
-
+        String suffix = originalFilename.substring(originalFilename.lastIndexOf('.'));
         BusinessFile businessFile = this.save("图片", suffix);
         writeToDisk(file, businessFile.getFilename());
         return businessFile;
@@ -73,7 +65,7 @@ public class BusinessFileServiceImpl extends BaseServiceImpl<BusinessFile> imple
     public void use(String fileId) {
         BusinessFile file = new BusinessFile();
         file.setId(fileId);
-        file.setUsed(1);
+        file.setUsed(true);
         super.updateSelective(file);
     }
 

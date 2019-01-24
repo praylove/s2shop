@@ -1,9 +1,12 @@
 package com.x_s.s2shop.vo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.EqualsAndHashCode;
 
-@Data
-public class SysUserVo {
+@Getter
+@Setter
+public class SysUserVo extends PageVo {
 
     private String loginId;
 
@@ -13,7 +16,4 @@ public class SysUserVo {
 
     private String roleIds;
 
-    private int pageNo = 1;
-
-    private int pageSize = 10;
 }

@@ -1,6 +1,6 @@
 package com.x_s.s2shop.repository;
 
-import com.x_s.s2shop.domain.SysMenu;
+import com.x_s.s2shop.domain.ProductImage;
 
-public interface ProductImageRepository extends BaseRepository<SysMenu, String>{
+public interface ProductImageRepository extends BaseRepository<ProductImage, String>{
 }

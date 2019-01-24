@@ -1,13 +1,15 @@
 package com.x_s.s2shop.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "sys_role", schema = "mytmall")
 public class SysRole {

@@ -13,5 +13,5 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
     @Modifying
     @Query("DELETE FROM #{#entityName} e WHERE e.id in (:ids)")
     void deleteInBatchByIds(@Param("ids") ID ids);
-
+    
 }

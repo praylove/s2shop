@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/files")
+@RequestMapping("/property")
 public class PropertyController extends BaseController<Property>{
 
 }

@@ -25,12 +25,12 @@ public class SysMenuController extends BaseController<SysMenu>{
 
     @GetMapping("/tree")
     public ResponseEntity getTree(){
-        return ResponseEntity.ok(menuService.getTree());
+        return ResponseEntity.ok(menuService.getTree(CodeConstant.BACK_MENU, CodeConstant.BACK_BUTTON));
     }
 
     @GetMapping("/treeMenu")
     public ResponseEntity getTreeMenu(){
-        return ResponseEntity.ok(menuService.getTreeMenu(CodeConstant.BACK_MENU));
+        return ResponseEntity.ok(menuService.getUserTree(CodeConstant.BACK_MENU));
     }
 
 }

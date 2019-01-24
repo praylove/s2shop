@@ -1,6 +1,7 @@
 package com.x_s.s2shop.domain;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "bus_file")
 public class BusinessFile {
@@ -32,6 +34,6 @@ public class BusinessFile {
 
     private String creator;
 
-    private int used;
+    private boolean used;
 
 }
