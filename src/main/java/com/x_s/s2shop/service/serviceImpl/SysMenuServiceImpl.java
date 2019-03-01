@@ -24,6 +24,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +35,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
 
     public Page<SysMenu> list(SysMenuVo menuVo) {
         Specification<SysMenu> specification = Specifications.<SysMenu>and()
-                .like(StringUtils.hasText(menuVo.getMenuName()), "menuName", menuVo.getMenuName())
+                .like(StringUtils.hasText(menuVo.getMenuName()), "menuName", "%" + menuVo.getMenuName() + "%")
                 .build();
         Sort sort = Sorts.builder().asc("order").build();
         PageRequest page = PageRequest.of(menuVo.getPageNo() - 1, menuVo.getPageSize(), sort);
@@ -55,7 +56,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
         SysMenu oldValue = findById(entity.getId()).orElseThrow(() -> new ServiceException("此菜单不存在！"));
         if (StringUtils.hasText(entity.getParentId()) && !entity.getParentId().equals(oldValue.getParentId())) {
             SysMenu sysMenu = findById(entity.getParentId()).orElseThrow(() -> new ServiceException("此父菜单不存在！"));
-            entity.setParentName(sysMenu.getMenuName());
+            entity.setParentName(sysMenu.getMenuName().trim());
             if (!isRightParentId(entity.getParentId(), entity.getId())) {
                 throw new ServiceException("父菜单不正确，不能为当前菜单及其子菜单！");
             }
@@ -70,17 +71,6 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
         super.delete(ids);
     }
     
-    @Override
-    public List<SysMenu> listChildren(String id) {
-        PredicateBuilder<SysMenu> builder = Specifications.and();
-        if (StringUtils.hasText(id)) {
-            builder.eq("parentId", id);
-        } else {
-            builder.eq("parentId", "", null);
-        }
-        Specification<SysMenu> specification = builder.build();
-        return menuRepository.findAll(specification);
-    }
 
     public List<SysMenu> getTree(String... type) {
         List<SysMenu> menus = listAll(type);
@@ -111,7 +101,8 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
                 .build();
         return menuRepository.findAll(specification);
     }
-
+    
+    
     private void buildTree(List<SysMenu> roots, List<SysMenu> menus) {
         if (roots == null || roots.isEmpty()) {
             return;

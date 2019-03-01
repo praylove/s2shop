@@ -17,7 +17,11 @@ public interface SysUserService  extends BaseService<SysUser>{
     Page<SysUser> list(SysUserVo userVo);
 
     Set<SysRole> getRole(String id);
+    
+    boolean exist(String loginId);
 
+    void save(String name, String loginId, String avatar);
+    
     void resetPassword(String id);
 
     void addRole(String uid, String... roleIds);

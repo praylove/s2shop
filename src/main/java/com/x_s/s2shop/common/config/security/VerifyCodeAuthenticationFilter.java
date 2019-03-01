@@ -5,20 +5,24 @@ import com.x_s.s2shop.common.constant.ContextConstant;
 import com.x_s.s2shop.common.entity.ResponseEntity;
 import com.x_s.s2shop.common.utils.HttpUtils;
 import com.x_s.s2shop.common.utils.SecurityUtils;
-import org.springframework.security.authentication.*;
-import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.common.util.OAuth2Utils;
+import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Collections;
 
 public class VerifyCodeAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -27,6 +31,7 @@ public class VerifyCodeAuthenticationFilter extends UsernamePasswordAuthenticati
     public VerifyCodeAuthenticationFilter() {
         setAuthenticationSuccessHandler((request, response, authResult) -> {
             System.out.println("登录成功！");
+    
             Object principal = authResult.getPrincipal();
             ResponseEntity entity = ResponseEntity.ok(principal);
             HttpUtils.responseWithJson(response, entity, true);
@@ -48,6 +53,10 @@ public class VerifyCodeAuthenticationFilter extends UsernamePasswordAuthenticati
     }
     
     
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+        super.doFilter(req, res, chain);
+    }
     
     private boolean verify(HttpServletRequest request, String code) {
         HttpSession session = request.getSession();
@@ -56,5 +65,5 @@ public class VerifyCodeAuthenticationFilter extends UsernamePasswordAuthenticati
         System.out.println("code: " + code);
         return StringUtils.equalsIgnoreCase(String.valueOf(verifyCode), code);
     }
-
+    
 }

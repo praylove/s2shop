@@ -3,6 +3,7 @@ server:
   servlet:
     context-path: /
 
+
 spring:
 #  jackson:
 #    date-format: yyyy-MM-dd HH:mm:ss
@@ -13,8 +14,16 @@ spring:
       suffix: .html
       mode: HTML5
       encoding: UTF-8
-
       cache: false
+
+  security:
+      oauth2:
+          client:
+            registration:
+              github:
+                client-id: Iv1.3f5c6f2a28dbc84f
+                client-secret: b2347f16b4f13d80a0ea9105a405318f28ac60cc
+                redirect_uri: http://localhost:8080/oauth/github
 
   datasource:
       type: com.alibaba.druid.pool.DruidDataSource
@@ -71,12 +80,12 @@ spring:
       #     #方言
       #     dialect: org.hibernate.dialect.MySQL5Dialect
 
-  rabbitmq:
-      host: 192.168.29.128
-      port: 5672
-#      virtual-host: /
-      username: sherl
-      password: sherl
+#  rabbitmq:
+#      host: 192.168.29.128
+#      port: 5672
+##      virtual-host: /
+#      username: sherl
+#      password: sherl
 
 # 日志配置
 logging:
@@ -91,3 +100,7 @@ file-type:
     - .gif
 #  music:
 #  media:
+
+server-info:
+  host: localhost
+  port: ${server.port}

@@ -22,7 +22,7 @@ import java.util.Collections;
 
 @Configuration
 @EnableAuthorizationServer
-public class AuthConfig extends AuthorizationServerConfigurerAdapter {
+public class OAuthConfig extends AuthorizationServerConfigurerAdapter {
     
     @Autowired
     private DataSource dataSource;

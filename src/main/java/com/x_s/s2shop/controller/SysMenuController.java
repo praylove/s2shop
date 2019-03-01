@@ -22,15 +22,22 @@ public class SysMenuController extends BaseController<SysMenu>{
     public ResponseEntity findAll(SysMenuVo menuVo){
         return ResponseEntity.ok(menuService.list(menuVo));
     }
-
+    
+    /**
+     * 获取后台菜单和后台按钮的结构树
+     */
     @GetMapping("/tree")
     public ResponseEntity getTree(){
         return ResponseEntity.ok(menuService.getTree(CodeConstant.BACK_MENU, CodeConstant.BACK_BUTTON));
     }
-
+    
+    /**
+     * 获取后台菜单的结构树
+     */
     @GetMapping("/treeMenu")
     public ResponseEntity getTreeMenu(){
         return ResponseEntity.ok(menuService.getUserTree(CodeConstant.BACK_MENU));
     }
 
+    
 }

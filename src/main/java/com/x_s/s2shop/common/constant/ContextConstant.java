@@ -1,5 +1,7 @@
 package com.x_s.s2shop.common.constant;
 
+import com.x_s.s2shop.domain.SysRole;
+
 public class ContextConstant {
 
     /**
@@ -18,4 +20,7 @@ public class ContextConstant {
     public static final String FILE_UPLOAD_PATH = "classpath:files";
 
     public static final String DEFUALT_PASSWORD = "123456";
+    
+    public static final String DEFUALT_ROLE_ID = "1b3ad5ae508c4a9daba971018f730afc";
+    
 }

@@ -33,7 +33,8 @@ public class BusinessFile {
     private Date createTime;
 
     private String creator;
-
-    private boolean used;
+    
+    @Column(name = "bussiness_id")
+    private String bussinessId;
 
 }

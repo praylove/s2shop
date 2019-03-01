@@ -23,7 +23,7 @@ public class SysMenu {
 
     @Basic
     @Column(name = "menu_order")
-    private String order;
+    private int order;
 
     @Basic
     @Column(name = "icon")

@@ -8,6 +8,7 @@ import com.x_s.s2shop.domain.BusinessFile;
 import com.x_s.s2shop.repository.BusinessFileRepository;
 import com.x_s.s2shop.service.BusinessFileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 @Service("fileService")
 public class BusinessFileServiceImpl extends BaseServiceImpl<BusinessFile> implements BusinessFileService{
@@ -28,6 +30,17 @@ public class BusinessFileServiceImpl extends BaseServiceImpl<BusinessFile> imple
     @Autowired
     private FileTypeProperties fileTypeProperties;
 
+    @Value("${server-info.host}")
+    private String host;
+    
+    @Value("${server-info.port}")
+    private String port;
+    
+    @Override
+    public BusinessFile findByPath(String path) {
+        return fileRepository.findByPath(path);
+    }
+    
     @Override
     public BusinessFile save(MultipartFile file) {
         if (file.isEmpty()){
@@ -52,6 +65,7 @@ public class BusinessFileServiceImpl extends BaseServiceImpl<BusinessFile> imple
         file.setFilename(file.getId() + suffix);
         file.setFileType(fileType);
         file.setSuffix(suffix);
+        file.setPath("http://" + host + ":" + port + "/file/" + file.getFilename());
         try {
             fileRepository.save(file);
         } catch (Exception e){
@@ -62,11 +76,21 @@ public class BusinessFileServiceImpl extends BaseServiceImpl<BusinessFile> imple
 
     @Override
     @Transactional
-    public void use(String fileId) {
-        BusinessFile file = new BusinessFile();
-        file.setId(fileId);
-        file.setUsed(true);
-        super.updateSelective(file);
+    public void use(String path, String bussinessId) {
+        BusinessFile file = findByPath(path);
+        if (file != null){
+            file.setBussinessId(bussinessId);
+            super.updateSelective(file);
+        }
+    }
+    
+    @Transactional
+    public void deleteByPath(String path){
+        try {
+            fileRepository.deleteByPath(path);
+        } catch (Exception e) {
+            throw new ServiceException(e);
+        }
     }
 
     private void writeToDisk(MultipartFile file, String filename){

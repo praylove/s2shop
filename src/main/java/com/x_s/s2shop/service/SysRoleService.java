@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface SysRoleService extends BaseService<SysRole> {
-
+    
     Page<SysRole> list(SysRoleVo roleVo);
 
     List<SysRole> listWithoutPage(SysRoleVo roleVo);

@@ -2,6 +2,7 @@ package com.x_s.s2shop.common.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 

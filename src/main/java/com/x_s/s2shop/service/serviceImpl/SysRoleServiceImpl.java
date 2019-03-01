@@ -26,7 +26,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
 
     @Autowired
     private SysRoleRepository roleRepository;
-
+    
     @Override
     public Page<SysRole> list(SysRoleVo roleVo) {
         Specification<SysRole> specification = Specifications.<SysRole>and()

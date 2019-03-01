@@ -7,4 +7,9 @@ import lombok.Setter;
 @Setter
 public class CategoryVo extends PageVo {
 
+    private String name;
+    
+    private String pageNo;
+    
+    private String pageSize;
 }

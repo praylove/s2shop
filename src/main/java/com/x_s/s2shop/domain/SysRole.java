@@ -48,7 +48,6 @@ public class SysRole {
     @JsonIgnore
     private Set<SysMenu> menus;
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

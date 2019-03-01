@@ -1,7 +1,5 @@
 package com.x_s.s2shop.common.config.security;
 
-import com.x_s.s2shop.common.entity.ResponseEntity;
-import com.x_s.s2shop.common.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +13,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Configuration
 @EnableWebSecurity
@@ -29,27 +29,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterAt(virifyCodeAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterAt(virifyCodeAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeRequests()
-                .antMatchers("/", "index.html","/oauth/**")
+                .antMatchers("/**", "index.html","/oauth/**")
                 .permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement()
 //                    .maximumSessions(1)   // 设置同一账号可同时在线数量，默认任意数量
                 .and()
-                .formLogin()
-                .loginProcessingUrl("/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessHandler(logoutSuccessHandler())
-                .and()
                 .csrf().disable();
+        System.out.println("SecurityConfig");
 
     }
     
@@ -71,21 +62,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return authenticationProvider;
     }
     
-    @Bean
-    public VerifyCodeAuthenticationFilter virifyCodeAuthenticationFilter() throws Exception {
-        VerifyCodeAuthenticationFilter filter = new VerifyCodeAuthenticationFilter();
-        filter.setAuthenticationManager(authenticationManagerBean());
-        return filter;
-    }
+//    @Bean
+//    public VerifyCodeAuthenticationFilter virifyCodeAuthenticationFilter() throws Exception {
+//        VerifyCodeAuthenticationFilter filter = new VerifyCodeAuthenticationFilter();
+//        filter.setAuthenticationManager(authenticationManagerBean());
+//        return filter;
+//    }
     
-    
-    public LogoutSuccessHandler logoutSuccessHandler() {
-        return (request, response, authentication) -> {
-            Object principal = authentication.getPrincipal();
-            ResponseEntity entity = ResponseEntity.ok(principal);
-            HttpUtils.responseWithJson(response, entity, true);
-        };
-    }
     
     /**
      * 需要配置这个支持password模式
@@ -96,5 +79,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+    
+//    public UserInfoRestTemplateFactory userInfoRestTemplateFactory(){
+//        return new DefaultUserInfoRestTemplateFactory.;
+//    }
     
 }

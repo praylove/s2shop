@@ -37,7 +37,8 @@ public abstract class BaseController<T> {
 
     @DeleteMapping("")
     public ResponseEntity delete(@RequestBody String ids){
-        service.delete(ids);
+        System.out.println(ids);
+//        service.delete(ids);
         return ResponseEntity.ok();
     }
 

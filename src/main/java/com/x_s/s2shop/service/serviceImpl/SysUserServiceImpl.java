@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Optional;
@@ -54,6 +55,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
     }
 
     @Override
+    @Transactional
     public void save(SysUser user) {
         String password = !StringUtils.hasText(user.getPassword()) ? ContextConstant.DEFUALT_PASSWORD : user.getPassword().trim();
         user.setPassword(Encoders.bcrypt(password));
@@ -61,7 +63,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);
         super.save(user);
-        fileService.use(user.getAvatar().substring(0, user.getAvatar().indexOf(".")));
+        fileService.use(user.getAvatar(), user.getId());
+        addRole(user.getId(), ContextConstant.DEFUALT_ROLE_ID);
     }
 
 
@@ -69,7 +72,21 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
         SysUser user = userRepository.findById(uid).orElse(null);
         return user == null ? null : user.getRoles();
     }
-
+    
+    @Override
+    public boolean exist(String loginId) {
+        return findByLoginId(loginId).isPresent();
+    }
+    
+    @Override
+    public void save(String name, String loginId, String avatar) {
+        SysUser user = new SysUser();
+        user.setLoginId(loginId);
+        user.setName(name);
+        user.setAvatar(avatar);
+        save(user);
+    }
+    
     @Override
     public void resetPassword(String id) {
 //        SysUser user = userRepository.findById(id).orElseThrow(() -> new ParamException("当前用户不存在！"));
